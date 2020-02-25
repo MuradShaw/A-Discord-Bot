@@ -13,9 +13,7 @@ client.on('message', message => {
 
     //Someone is trying to run a command
     if(message.content.startsWith(`${prefix}`))
-    {
-
-    }
+    {}
 })
 
 client.login(token); //Grab token and run
