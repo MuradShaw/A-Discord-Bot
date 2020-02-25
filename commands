@@ -1,0 +1,10 @@
+{
+  "Commands": [
+    {
+      "Name": "Dummy Command",
+      "Table": "target_table",
+      "Where": "
+      "Perform": "direct_message",
+    }
+  ]
+}
