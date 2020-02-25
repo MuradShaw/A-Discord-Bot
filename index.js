@@ -1,5 +1,6 @@
 //Getting things ready
 const Discord = require('discord.js');
+const Mysql = require('./mysql.js');
 const { prefix, token } = require('./config.json');
 const client = new Discord.Client();
 
