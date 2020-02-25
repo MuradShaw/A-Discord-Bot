@@ -1,14 +1,14 @@
 //For creating and interacting with MySql DB
 
 var mysql = require('mysql');
-
+const { Host, User, Password, Database } = require('settings.js');
 
 //Create connection
 var con = mysql.createConnection({
-  host: "/host here/",
-  user: "/user here/",
-  password: "/pass here/"
-  database: "/database here/"
+  host: Host,
+  user: User,
+  password: Password,
+  database: Database
 });
 
 //Did we attempt a connection?
