@@ -1,8 +1,12 @@
 {
-    "...": "MYSQL CONNECTION:",
+    "++": "MYSQL CONNECTION:",
     
     "host": "/HOST HERE/",
     "user": "/USER HERE/"
     "password": "/HOST HERE/",
     "database": "/DATABASE HERE/",
+    
+    
+    "+=": "FETCHING REQUESTS",
+    "table": "Adb_Fetch",
 }
