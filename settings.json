@@ -8,5 +8,5 @@
     
     
     "+=": "FETCHING REQUESTS",
-    "table": "Adb_Fetch",
+    "fetch": "Adb_Fetch",
 }
