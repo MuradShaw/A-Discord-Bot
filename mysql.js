@@ -16,3 +16,13 @@ con.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
 });
+
+//Start authentication
+function prepareAuthentication()
+{
+  var sql = "INSERT into adb_auth (did, code) VALUES ?";
+}
+
+module.exports = {
+  prepareAuthentication
+};
