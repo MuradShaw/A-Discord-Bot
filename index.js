@@ -14,7 +14,12 @@ client.on('message', message => {
 
     //Someone is trying to run a command
     if(message.content.startsWith(`${prefix}`))
-    {}
+    {
+        //Authorize command
+        if(message.content.startsWith(`${prefix}authorize`))
+            if(!Mysql.prepareAuthentication()) //Query didn't fail
+                message.author.send("Authentication Test Sent!");
+    }
 })
 
 client.login(token); //Grab token and run
