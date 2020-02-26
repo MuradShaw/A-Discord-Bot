@@ -1,7 +1,7 @@
 //For creating and interacting with MySql DB
 
 var mysql = require('mysql');
-const { Host, User, Password, Database } = require('settings.js');
+const { Host, User, Password, Database } = require('./settings.json');
 
 //Create connection
 var con = mysql.createConnection({
@@ -15,5 +15,4 @@ var con = mysql.createConnection({
 con.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
-  
 });

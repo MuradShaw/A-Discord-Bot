@@ -1,12 +1,12 @@
 {
     "++": "MYSQL CONNECTION:",
     
-    "host": "/HOST HERE/",
-    "user": "/USER HERE/"
-    "password": "/HOST HERE/",
-    "database": "/DATABASE HERE/",
+    "Host": "localhost",
+    "User": "root",
+    "Password": "test1234",
+    "Database": "sadb",
     
     
     "+=": "FETCHING REQUESTS",
-    "fetch": "Adb_Fetch",
+    "fetch": "Adb_Fetch"
 }
