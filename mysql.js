@@ -1,4 +1,4 @@
-//For creating and interacting with MySql DB
+//For interacting with a MySql DB
 
 var mysql = require('mysql');
 var index = require('./index.js')
