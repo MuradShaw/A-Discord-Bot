@@ -3,6 +3,4 @@
     "User": "root",
     "Password": "test1234",
     "Database": "sadb",
-    
-    "fetch": "Adb_Fetch"
 }
