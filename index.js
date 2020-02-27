@@ -11,15 +11,14 @@ client.once('ready', () => {
 
 //Message was sent somewhere
 client.on('message', message => {
-
+	if(message.author.bot) return;
+	if(message.channel.type == "dm") return;
+	
+	Mysql.addCurrency();
+	
     //Someone is trying to run a command
     if(message.content.startsWith(`${prefix}`))
-    {
-        //Authorize command
-        if(message.content.startsWith(`${prefix}authorize`))
-            if(!Mysql.prepareAuthentication()) //Query didn't fail
-                message.author.send("Authentication Test Sent!");
-    }
+    {}
 })
 
 client.login(token); //Grab token and run
