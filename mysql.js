@@ -1,29 +1,24 @@
 //For interacting with a MySql DB
 
-var mysql = require('mysql');
-var index = require('./index.js')
-const { Host, User, Password, Database, currMin, currMax} = require('./settings.json');
+//Adding more currency to the db
+const increaseCurrency = (did) => {
 
-//Create connection
-var con = mysql.createConnection({
-  host: Host,
-  user: User,
-  password: Password,
-  database: Database
-});
-
-//Attempt a connection
-con.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected!");
-});
-
-//Return this to index
-function getConnection()
-{
-	return con;
+	//Get user from db
+	connection.query(`SELECT * FROM currency WHERE id = '${did}'`, (err, rows) => {
+		if(err) throw err;
+		
+		let sql;
+		var newAmount = Math.floor(Math.random() * Math.floor(3));
+		
+		//User doesn't exist in db
+		if(rows < 1)
+			sql = `INSERT into currency (id, amount) VALUES ('${did}', ${newAmount})`;
+		else { //Exists, just update them
+			let amount = rows[0].amount;
+			sql = `UPDATE currency SET amount = '${amount + newAmount}' WHERE id = '${did}'`;
+		}
+		
+		//Do the thing
+		connection.query(sql);
+	});
 }
-
-module.exports = {
-  addConnection
-};
