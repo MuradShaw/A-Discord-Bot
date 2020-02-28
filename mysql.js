@@ -1,5 +1,33 @@
 //For interacting with a MySql DB
 
+const Discord = require('discord.js');
+const Embed = require('textembs.js');
+const { Host, User, Password, Database } = require('./settings.json');
+
+//Create connection
+var connection = mysql.createConnection({
+	host: Host,
+	user: User,
+	password: Password,
+	database: Database
+});
+  
+//Attempt a connection
+connection.connect(function(err) {
+	if (err) throw err;
+	console.log("Connected!");
+});
+
+//Get amount of currency
+const getCurrency = (did, message) => {
+	connection.query(`SELECT * FROM currency WHERE id = '${message.author.id}'`, (err, rows) => {
+		if(err) throw err;
+
+		let amount = rows[0].amount;
+		message.channel.send(Embed.createInfoEmbed());
+	});
+}
+
 //Adding more currency to the db
 const increaseCurrency = (did) => {
 
@@ -22,3 +50,6 @@ const increaseCurrency = (did) => {
 		connection.query(sql);
 	});
 }
+
+exports.increaseCurrency = increaseCurrency;
+exports.getCurrency = getCurrency;
