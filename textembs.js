@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const { currencyName } = require('./config.json');
 
-const createInfoEmbed = (message) => {
+const createInfoEmbed = (message, amount) => {
 	const infoEmbed = new Discord.RichEmbed()
 		.setColor('#0099ff')
 		.setTitle(message.author.username)
