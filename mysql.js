@@ -24,7 +24,7 @@ const getCurrency = (did, message) => {
 		if(err) throw err;
 
 		let amount = rows[0].amount;
-		message.channel.send(Embed.createInfoEmbed());
+		message.channel.send(Embed.createInfoEmbed(message, amount));
 	});
 }
 
