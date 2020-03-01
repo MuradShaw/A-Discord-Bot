@@ -38,8 +38,8 @@ const getCurrency = (did, message) => {
             .addField(currencyName, amount, true)
             .addField('EXP', '7', true)
             //.addBlankField()
-            .addField('Equipped Weapon', sword)
-            .setImage('https://p7.hiclipart.com/preview/375/528/997/thinkgeek-minecraft-next-generation-diamond-sword-thinkgeek-minecraft-foam-sword-others.jpg')
+            .addField('Equipped Weapon', (rows[0].equipped_weapon == null ? 'No equipped weapon' : sword))
+            //.setImage()
             .setTimestamp()
             .setFooter('A Discord Bot', 'https://i.imgur.com/wSTFkRM.png');
 

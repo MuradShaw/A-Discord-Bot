@@ -23,10 +23,34 @@ client.on('message', message => {
     //Someone is trying to run a command
     if(message.content.startsWith(`${prefix}`))
     {
-        //!Coins- Get amount of currency
+        //!info- Get user info (amount of currency/xp/weapons)
         if(message.content.startsWith(`${prefix}info`))
             Mysql.getCurrency(message.author.id, message);
+        
+        //!shop- get shop
+        else if(message.content.startsWith(`${prefix}info`))
+            getShop();
     }
 })
+
+const getShop = () => {
+
+    const shopEmbed = new Discord.RichEmbed()
+            .setColor('#0099ff')
+            .setTitle(message.author.username)
+            //.setURL(message.author.fetchProfile)
+            .setDescription(`*Currently ${message.author.presence.status}*`)
+            .setThumbnail(message.author.avatarURL)
+            .addBlankField()
+            .addField(currencyName, amount, true)
+            .addField('EXP', '7', true)
+            //.addBlankField()
+            .addField('Equipped Weapon', (rows[0].equipped_weapon == null ? 'No equipped weapon' : sword))
+            //.setImage()
+            .setTimestamp()
+            .setFooter('A Discord Bot', 'https://i.imgur.com/wSTFkRM.png');
+
+		message.channel.send(shopEmbed);
+}
 
 client.login(token); //Grab token and run
