@@ -70,5 +70,24 @@ const increaseCurrency = (did) => {
 	});
 }
 
+//Buy an item
+const buyItem = (did, message, id) => {
+	connection.query(`SELECT * FROM purchased_items WHERE id = '${message.author.id}' AND itemID = '${id}'`, (err, rows) => {
+		if(err) throw err;
+
+		let sql;
+
+		//User doesn't exist in db
+		if(rows < 1)
+		{
+			sql = `INSERT into purchased_items (id, itemID) VALUES ('${did}', ${id})`;
+			message.channel.send("Purchased item");
+
+			connection.query(sql);
+		}
+		else  //Exists, cancel transaction
+			message.channel.send("You already purchased this item");
+}
+
 exports.increaseCurrency = increaseCurrency;
 exports.getCurrency = getCurrency;
