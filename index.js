@@ -38,7 +38,7 @@ const getShop = (message) => {
     var theItems = '';
 
     for (i in Items.items) {
-        theItems = `${theItems}\n **${Items.items[i].name}**, ${Items.items[i].cost} ${currencyName}`;
+        theItems = `${theItems}\n **${Items.items[i].name}**, ${Items.items[i].desc}. [${Items.items[i].cost} ${currencyName}]`;
     }
 
     const shopEmbed = new Discord.RichEmbed()
@@ -52,7 +52,7 @@ const getShop = (message) => {
             .setTimestamp()
             .setFooter('A Discord Bot', 'https://i.imgur.com/wSTFkRM.png');
 
-		message.channel.send(shopEmbed);
+	    message.channel.send(shopEmbed);
 }
 
-client.login(token); //Grab token and run
+client.login(token);
