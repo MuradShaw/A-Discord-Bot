@@ -1,6 +1,6 @@
 {
         "items": [
-            { "name":"Butter Sword", "cost": "50", "image":""},
+            { "name":"Butter Sword", "desc": "", "cost": "50", "image":""},
             { "name":"Toast Shield", "cost": "50", "image":""}
         ]
 }

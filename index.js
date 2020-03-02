@@ -28,25 +28,27 @@ client.on('message', message => {
             Mysql.getCurrency(message.author.id, message);
         
         //!shop- get shop
-        else if(message.content.startsWith(`${prefix}info`))
-            getShop();
+        else if(message.content.startsWith(`${prefix}shop`))
+            getShop(message);
     }
 })
 
-const getShop = () => {
+const getShop = (message) => {
+
+    var theItems = '';
+
+    for (i in Items.items) {
+        theItems = `${theItems}\n **${Items.items[i].name}**, ${Items.items[i].cost} ${currencyName}`;
+    }
 
     const shopEmbed = new Discord.RichEmbed()
             .setColor('#0099ff')
-            .setTitle(message.author.username)
+            .setTitle('Shop')
             //.setURL(message.author.fetchProfile)
-            .setDescription(`*Currently ${message.author.presence.status}*`)
-            .setThumbnail(message.author.avatarURL)
+            .setDescription(`Buy a few things`)
+            .setThumbnail('https://www.canteach.ca/minecraft-pe/images/chest.gif')
             .addBlankField()
-            .addField(currencyName, amount, true)
-            .addField('EXP', '7', true)
-            //.addBlankField()
-            .addField('Equipped Weapon', (rows[0].equipped_weapon == null ? 'No equipped weapon' : sword))
-            //.setImage()
+            .addField('+===|SHOP|===+\n !buy [item name]', theItems, true)
             .setTimestamp()
             .setFooter('A Discord Bot', 'https://i.imgur.com/wSTFkRM.png');
 
