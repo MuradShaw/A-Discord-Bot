@@ -1,6 +1,14 @@
 {
+    "shop": 
+    {
         "items": [
-            { "name":"Butter Sword", "desc": "", "cost": "50", "image":""},
-            { "name":"Toast Shield", "desc": "Crafted from only the finest of loafs.", "cost": "50", "image":""}
+            { "id": 1, "name":"Butter Sword", "desc": "A stick of butter slapped onto a hilt", "cost": 80, "image":""},
+            { "id": 2, "name":"Toast Shield", "desc": "Crafted from only the finest of loafs", "cost": "80", "image":""}
+        ],
+
+        "clothing": [
+            { "id": 3, "name":"Striped Sweater", "desc": "The best time to wear a striped sweater...", "cost": "100", "image":""},
+            { "id": 4, "name":"Ancient Armor", "desc": "Armor worn by warriors", "cost": "500", "image":""}
         ]
+    }
 }

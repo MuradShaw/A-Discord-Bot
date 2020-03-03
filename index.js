@@ -30,16 +30,45 @@ client.on('message', message => {
         //!shop- get shop
         else if(message.content.startsWith(`${prefix}shop`))
             getShop(message);
+
+        //!buy- buy an item from the shop
+        else if(message.content.startsWith(`${prefix}buy`))
+        {
+            //Get command arg
+            const baseArg = message.content.slice(prefix.length).split(' ');
+            var arg = '';
+            var foundID;
+            var success = false;
+
+            for(i in args)
+                arg = `${arg}${baseArg[i]}`;
+
+            for(i in Items.shop.items)
+            {
+                if(Items.shop.items[i].name == arg)
+                {
+                    foundID = Items.shop.items[i].id;
+                    success = true;
+                    2325
+                }
+            }
+
+            Mysql.buyItem(message.author.id, message);
+        }
     }
 })
 
 const getShop = (message) => {
 
     var theItems = '';
+    var theClothing = '';
 
-    for (i in Items.items) {
-        theItems = `${theItems}\n **${Items.items[i].name}**, ${Items.items[i].desc}. [${Items.items[i].cost} ${currencyName}]`;
-    }
+    for (i in Items.shop.items) 
+    {   theItems = `${theItems}\n **${Items.shop.items[i].name}** | ${Items.shop.items[i].desc}. [${Items.shop.items[i].cost} ${currencyName}]`; }
+    for (g in Items.shop.clothing) 
+    {   theClothing = `${theClothing}\n **${Items.shop.clothing[g].name}** | ${Items.shop.clothing[g].desc}. [${Items.shop.clothing[g].cost} ${currencyName}]`; }
+
+    console.log(`${Items.clothing}`);
 
     const shopEmbed = new Discord.RichEmbed()
             .setColor('#0099ff')
@@ -48,11 +77,13 @@ const getShop = (message) => {
             .setDescription(`Buy a few things`)
             .setThumbnail('https://www.canteach.ca/minecraft-pe/images/chest.gif')
             .addBlankField()
-            .addField('+===|SHOP|===+\n !buy [item name]', theItems, true)
+            .addField('Commands', '!buy [item name]')
+            .addField('Weaponry', theItems, true)
+            .addField('Clothing', theClothing, true)
             .setTimestamp()
             .setFooter('A Discord Bot', 'https://i.imgur.com/wSTFkRM.png');
 
-	    message.channel.send(shopEmbed);
+	message.channel.send(shopEmbed);
 }
 
 client.login(token);

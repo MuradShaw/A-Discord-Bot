@@ -87,6 +87,7 @@ const buyItem = (did, message, id) => {
 		}
 		else  //Exists, cancel transaction
 			message.channel.send("You already purchased this item");
+	});
 }
 
 exports.increaseCurrency = increaseCurrency;
