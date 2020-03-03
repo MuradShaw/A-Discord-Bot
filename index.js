@@ -38,6 +38,7 @@ client.on('message', message => {
             const baseArg = message.content.slice(prefix.length).split(' ');
             var arg = '';
             var foundID;
+	    var info;
             var success = false;
 
             for(i in args)
@@ -49,11 +50,28 @@ client.on('message', message => {
                 {
                     foundID = Items.shop.items[i].id;
                     success = true;
-                    2325
                 }
             }
-
-            Mysql.buyItem(message.author.id, message);
+	    
+	    if(!success)
+		    message.channel.send('Item not found.');
+	    else
+	    {
+	   	 Mysql.buyItem(message.author.id, message);
+		    
+	         const buyEmbed = new Discord.RichEmbed()
+		    .setColor('#D4AF37')
+		    .setTitle('Transaction Complete')
+		    //.setURL(message.author.fetchProfile)
+		    .setDescription(`${message.author.username} purchased **${arg}**`)
+		    .setThumbnail(`${image}`)
+		    .addBlankField()
+		    .addField('Info', '!buy [item name]')
+		    .setTimestamp()
+		    .setFooter('A Discord Bot', 'https://i.imgur.com/wSTFkRM.png');
+		    
+		 message.channel.send(buyEmbed);  
+	    }
         }
     }
 })
