@@ -71,19 +71,23 @@ const increaseCurrency = (did) => {
 }
 
 //Buy an item
-const buyItem = (did, message, id) => {
+const buyItem = (did, message, id, price) => {
 	connection.query(`SELECT * FROM purchased_items WHERE id = '${message.author.id}' AND itemID = '${id}'`, (err, rows) => {
 		if(err) throw err;
 
-		let sql;
-
+		let addItem;
+		let chargeAmount;
+		
 		//User doesn't exist in db
 		if(rows < 1)
 		{
-			sql = `INSERT into purchased_items (id, itemID) VALUES ('${did}', ${id})`;
+			addItem = `INSERT into purchased_items (id, itemID) VALUES ('${did}', ${id})`;
+			chargeAmount = `UPDATE currency SET amount = '${amount - price}' WHERE id = '${message.author.id}'`;
+			
 			message.channel.send("Purchased item");
 
-			connection.query(sql);
+			connection.query(addItem);
+			connection.query(chargeAmount);
 		}
 		else  //Exists, cancel transaction
 			message.channel.send("You already purchased this item");
