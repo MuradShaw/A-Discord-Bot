@@ -38,7 +38,7 @@ client.on('message', message => {
             const baseArg = message.content.slice(prefix.length).split(' ');
             var arg = '';
             var foundID;
-	    var info;
+	        var info;
             var success = false;
 
             for(i in args)
