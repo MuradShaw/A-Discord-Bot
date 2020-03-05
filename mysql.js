@@ -77,15 +77,25 @@ const buyItem = (did, message, id, price) => {
 
 		let addItem;
 		let chargeAmount;
+		var failure = false;
 		
-		//User doesn't exist in db
-		if(rows < 1)
+		//Check funds
+		connection.query(`SELECT amount FROM currency WHERE id = '${did}'`, (err, rows) => {
+			if(err) throw err;
+			
+			if(rows < 1 || rows[0].amount < price)
+				failure = true;
+		});
+		
+		if(failure)
+		{
+			message.channel.send("Insufficient funds");
+		}
+		else if(rows < 1) //Item not already owned
 		{
 			addItem = `INSERT into purchased_items (id, itemID) VALUES ('${did}', ${id})`;
 			chargeAmount = `UPDATE currency SET amount = '${amount - price}' WHERE id = '${message.author.id}'`;
 			
-			message.channel.send("Purchased item");
-
 			connection.query(addItem);
 			connection.query(chargeAmount);
 		}
