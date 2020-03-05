@@ -70,6 +70,35 @@ const increaseCurrency = (did) => {
 	});
 }
 
+const equipItem = (message, id, name) => {
+	var failure;
+	
+	connection.query(`SELECT * FROM purchased_items WHERE id = '${message.author.id}' AND itemID = '${id}'`, (err, rows) => {
+		if(err) throw err;
+
+		if(rows < 1)
+			message.channel.send("You do not own this item.");
+		else
+		{
+			connection.query(`UPDATE currency SET equipped_weapon = '${name}'`);
+
+			//Send channel message
+			const buyEmbed = new Discord.RichEmbed()
+				.setColor('#D4AF37')
+				.setTitle('Query Complete')
+				//.setURL(message.author.fetchProfile)
+				.setDescription(`${message.author.username} equipped **${name}**`)
+				.setThumbnail(`${image}`)
+				.addBlankField()
+				.setTimestamp()
+				.setFooter('A Discord Bot', 'https://i.imgur.com/wSTFkRM.png');
+		
+			message.channel.send(buyEmbed); 
+		}
+		
+	});
+}
+
 //Buy an item
 const buyItem = (message, id, price, image, arg) => {
 	connection.query(`SELECT * FROM purchased_items WHERE id = '${message.author.id}' AND itemID = '${id}'`, (err, rows) => {
@@ -94,7 +123,7 @@ const buyItem = (message, id, price, image, arg) => {
 		else if(rows < 1) //Item not already owned
 		{
 			addItem = `INSERT into purchased_items (id, itemID) VALUES ('${message.author.id}', ${id})`;
-			chargeAmount = `UPDATE currency SET amount = '${amount - price}' WHERE id = '${message.author.id}'`;
+			chargeAmount = `UPDATE currency SET amount = amount -'${price}' WHERE id = '${message.author.id}'`;
 			
 			//Update database
 			connection.query(addItem);
@@ -120,3 +149,5 @@ const buyItem = (message, id, price, image, arg) => {
 
 exports.increaseCurrency = increaseCurrency;
 exports.getCurrency = getCurrency;
+exports.buyItem = buyItem;
+exports.equipItem = equipItem;

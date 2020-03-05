@@ -35,32 +35,33 @@ client.on('message', message => {
         else if(message.content.startsWith(`${prefix}buy`))
         {
             //Get command arg
-            const baseArg = message.content.slice(prefix.length).split(' ');
+            var baseCmd = `${prefix}buy`;
+            const baseArg = message.content.slice(baseCmd.length).split(' ');
             var arg = '';
             var foundID;
-	    var info;
+	        var info;
             var cost;
-	    var image;
+	        var image;
             var success = false;
 
-            for(i in args)
+            for(i in baseArg)
                 arg = `${arg}${baseArg[i]}`;
 
             for(i in Items.shop.items)
             {
-                if(Items.shop.items[i].name == arg)
+                if(Items.shop.items[i].name.replace(" ", "") == arg)
                 {
                     foundID = Items.shop.items[i].id;
-		    cost = Items.shop.items[i].cost;
-		    image = Items.shop.items[i].image;
+		            cost = Items.shop.items[i].cost;
+		            image = Items.shop.items[i].image;
                     success = true;
                 }
             }
 	    
-	    if(!success)
-		    message.channel.send('Item not found.');
-	    else
-	   	 Mysql.buyItem(message, foundID, cost, image, arg);
+            if(!success)
+                message.channel.send('Item not found.');
+            else
+                Mysql.buyItem(message, foundID, cost, image, arg);
         }
     }
 })
