@@ -71,7 +71,7 @@ const increaseCurrency = (did) => {
 }
 
 //Buy an item
-const buyItem = (did, message, id, price) => {
+const buyItem = (message, id, price, image, arg) => {
 	connection.query(`SELECT * FROM purchased_items WHERE id = '${message.author.id}' AND itemID = '${id}'`, (err, rows) => {
 		if(err) throw err;
 
@@ -80,7 +80,7 @@ const buyItem = (did, message, id, price) => {
 		var failure = false;
 		
 		//Check funds
-		connection.query(`SELECT amount FROM currency WHERE id = '${did}'`, (err, rows) => {
+		connection.query(`SELECT amount FROM currency WHERE id = '${message.author.id}'`, (err, rows) => {
 			if(err) throw err;
 			
 			if(rows < 1 || rows[0].amount < price)
@@ -93,11 +93,25 @@ const buyItem = (did, message, id, price) => {
 		}
 		else if(rows < 1) //Item not already owned
 		{
-			addItem = `INSERT into purchased_items (id, itemID) VALUES ('${did}', ${id})`;
+			addItem = `INSERT into purchased_items (id, itemID) VALUES ('${message.author.id}', ${id})`;
 			chargeAmount = `UPDATE currency SET amount = '${amount - price}' WHERE id = '${message.author.id}'`;
 			
+			//Update database
 			connection.query(addItem);
 			connection.query(chargeAmount);
+			
+			//Send channel message
+			const buyEmbed = new Discord.RichEmbed()
+			    .setColor('#D4AF37')
+			    .setTitle('Transaction Complete')
+			    //.setURL(message.author.fetchProfile)
+			    .setDescription(`${message.author.username} purchased **${arg}**`)
+			    .setThumbnail(`${image}`)
+			    .addBlankField()
+			    .setTimestamp()
+			    .setFooter('A Discord Bot', 'https://i.imgur.com/wSTFkRM.png');
+
+			message.channel.send(buyEmbed);  
 		}
 		else  //Exists, cancel transaction
 			message.channel.send("You already purchased this item");
