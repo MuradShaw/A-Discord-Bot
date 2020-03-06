@@ -30,6 +30,39 @@ client.on('message', message => {
         //!shop- get shop
         else if(message.content.startsWith(`${prefix}shop`))
             getShop(message);
+	
+	else if(message.content.startsWith(`${prefix}equip`))
+	{
+	    //Get command arg
+            var baseCmd = `${prefix}equip`;
+            const baseArg = message.content.slice(baseCmd.length).split(' ');
+            var arg = '';
+	    var index;
+            var success = false;
+	    
+	    //Build the argument
+            for(i in baseArg)
+                arg = `${arg}${baseArg[i]}`;
+	    
+            //Join the json arrays
+	    var finalArray = Items.shop.items.concat(Items.shop.clothing);
+
+            for(i in finalArray)
+            {
+                if(finalArray[i].name.replace(" ", "") == arg)
+                {
+                    index = i;
+                    success = true;
+			
+		    break;
+                }
+            }
+	    
+            if(!success)
+                message.channel.send('Item not found.');
+            else
+                Mysql.buyItem(message, finalArray[index].id, finalArray[index].cost, finalArray[index].image, arg);
+	}
 
         //!buy- buy an item from the shop
         else if(message.content.startsWith(`${prefix}buy`))
@@ -38,22 +71,20 @@ client.on('message', message => {
             var baseCmd = `${prefix}buy`;
             const baseArg = message.content.slice(baseCmd.length).split(' ');
             var arg = '';
-            var foundID;
-	        var info;
-            var cost;
-	        var image;
+	    var index;
             var success = false;
 
             for(i in baseArg)
                 arg = `${arg}${baseArg[i]}`;
-
-            for(i in Items.shop.items)
+	
+	    //Join the json arrays
+	    var finalArray = Items.shop.items.concat(Items.shop.clothing);
+	   
+            for(i in finalArray)
             {
-                if(Items.shop.items[i].name.replace(" ", "") == arg)
+                if(finalArray[i].name.replace(" ", "") == arg)
                 {
-                    foundID = Items.shop.items[i].id;
-		            cost = Items.shop.items[i].cost;
-		            image = Items.shop.items[i].image;
+                    index = i;
                     success = true;
                 }
             }
@@ -61,7 +92,7 @@ client.on('message', message => {
             if(!success)
                 message.channel.send('Item not found.');
             else
-                Mysql.buyItem(message, foundID, cost, image, arg);
+                Mysql.buyItem(message, finalArray[index].id, finalArray[index].cost, finalArray[index].image, arg);
         }
     }
 })
