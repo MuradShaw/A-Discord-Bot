@@ -92,7 +92,7 @@ client.on('message', message => {
             if(!success)
                 message.channel.send('Item not found.');
             else
-                Mysql.buyItem(message, finalArray[index].id, arg);
+                Mysql.buyItem(message, finalArray[index].id, finalArray[index].image, arg);
         }
     }
 })
