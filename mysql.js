@@ -70,7 +70,7 @@ const increaseCurrency = (did) => {
 	});
 }
 
-const equipItem = (message, id, name) => {
+const equipItem = (message, id, image, name) => {
 	var failure;
 	
 	connection.query(`SELECT * FROM purchased_items WHERE id = '${message.author.id}' AND itemID = '${id}'`, (err, rows) => {
