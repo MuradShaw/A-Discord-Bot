@@ -30,39 +30,51 @@ client.on('message', message => {
         //!shop- get shop
         else if(message.content.startsWith(`${prefix}shop`))
             getShop(message);
-	
-	else if(message.content.startsWith(`${prefix}equip`))
-	{
-	    //Get command arg
-            var baseCmd = `${prefix}equip`;
+        
+        else if(message.content.startsWith(`${prefix}setCoin`))
+        {
+            //Get command arg
+            var baseCmd = `${prefix}setCoin`;
+            var name;
             const baseArg = message.content.slice(baseCmd.length).split(' ');
             var arg = '';
-	    var index;
-            var success = false;
-	    
-	    //Build the argument
+
             for(i in baseArg)
                 arg = `${arg}${baseArg[i]}`;
-	    
-            //Join the json arrays
-	    var finalArray = Items.shop.items.concat(Items.shop.clothing);
 
-            for(i in finalArray)
+            
+            Mysql.debugSetCoins(message, arg);            
+        }
+
+        else if(message.content.startsWith(`${prefix}equip`))
+        {
+            //Get command arg
+            var baseCmd = `${prefix}equip`;
+            var r;
+            const baseArg = message.content.slice(baseCmd.length).split(' ');
+            var arg = '';
+
+            for(i in baseArg)
+                arg = `${arg}${baseArg[i]}`;
+
+            //Join tables
+            var daItems = Items.shop.items.concat(Items.shop.clothing);
+            for(i in daItems)
             {
-                if(finalArray[i].name.replace(" ", "") == arg)
+                if(daItems[i].name.replace(" ", "") == arg)
                 {
-                    index = i;
                     success = true;
-			
-		    break;
+                    r = i;
+
+                    break;
                 }
             }
-	    
+            
             if(!success)
                 message.channel.send('Item not found.');
             else
-                Mysql.buyItem(message, finalArray[index].id, finalArray[index].image, arg);
-	}
+                Mysql.equipItem(message, daItems[r].id, daItems[r].image, daItems[r].name);            
+        }
 
         //!buy- buy an item from the shop
         else if(message.content.startsWith(`${prefix}buy`))
@@ -71,28 +83,29 @@ client.on('message', message => {
             var baseCmd = `${prefix}buy`;
             const baseArg = message.content.slice(baseCmd.length).split(' ');
             var arg = '';
-	    var index;
+            var r;
             var success = false;
 
             for(i in baseArg)
                 arg = `${arg}${baseArg[i]}`;
-	
-	    //Join the json arrays
-	    var finalArray = Items.shop.items.concat(Items.shop.clothing);
-	   
-            for(i in finalArray)
+
+            //Join tables
+            var daItems = Items.shop.items.concat(Items.shop.clothing);
+            for(i in daItems)
             {
-                if(finalArray[i].name.replace(" ", "") == arg)
+                if(daItems[i].name.replace(" ", "") == arg)
                 {
-                    index = i;
                     success = true;
+                    r = i;
+
+                    break;
                 }
             }
-	    
+
             if(!success)
                 message.channel.send('Item not found.');
             else
-                Mysql.buyItem(message, finalArray[index].id, finalArray[index].image, arg);
+                Mysql.buyItem(message, daItems[r].id, daItems[r].cost, daItems[r].image, daItems[r].name);
         }
     }
 })
