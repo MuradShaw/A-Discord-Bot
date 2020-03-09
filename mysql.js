@@ -2,9 +2,9 @@
 
 const Discord = require('discord.js');
 var mysql = require('mysql');
-const { Host, User, Password, Database } = require('./settings.json');
-const { currencyName } = require('./config.json');
-const Items = require('./items.json');
+const { Host, User, Password, Database } = require('./settings/settings.json');
+const { currencyName } = require('./settings/config.json');
+const Items = require('./settings/items.json');
 
 //Create connection
 var connection = mysql.createConnection({
