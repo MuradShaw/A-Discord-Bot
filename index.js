@@ -28,9 +28,9 @@ client.on('message', message => {
 	{
 	    const tagged = message.mentions.users.first();
 	    if(tagged == null)
-            	Mysql.getCurrency(message.author.id, message);
+            	Mysql.getCurrency(message.author, message);
 	    else 
-		Mysql.getCurrency(tagged.id, message);
+		Mysql.getCurrency(tagged, message);
 	}
         
         //!shop- get shop
