@@ -21,8 +21,8 @@ connection.connect(function(err) {
 });
 
 //Get amount of currency
-const getCurrency = (did, message) => {
-	connection.query(`SELECT * FROM currency WHERE id = '${message.author.id}'`, (err, rows) => {
+const getCurrency = (user, message) => {
+	connection.query(`SELECT * FROM currency WHERE id = '${user.id}'`, (err, rows) => {
 		if(err) throw err;
 
         let amount = rows[0].amount;
@@ -30,14 +30,14 @@ const getCurrency = (did, message) => {
 
         const infoEmbed = new Discord.RichEmbed()
             .setColor('#0099ff')
-            .setTitle(message.author.username)
+            .setTitle(user.username)
             //.setURL(message.author.fetchProfile)
-            .setDescription(`*Currently ${message.author.presence.status}*`)
-            .setThumbnail(message.author.avatarURL)
+            .setDescription(`*Currently ${user.presence.status}*`)
+            .setThumbnail(user.avatarURL)
             .addBlankField()
             .addField(currencyName, amount, true)
             //.addBlankField()
-			.addField('Equipped Weapon', (rows[0].equipped_weapon == null ? 'No equipped weapon' : sword))
+	    .addField('Equipped Weapon', (rows[0].equipped_weapon == null ? 'No equipped weapon' : sword))
             //.setImage()
             .setTimestamp()
             .setFooter('A Discord Bot', 'https://i.imgur.com/wSTFkRM.png');
