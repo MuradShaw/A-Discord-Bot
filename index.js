@@ -25,7 +25,13 @@ client.on('message', message => {
     {
         //!info- Get user info (amount of currency/xp/weapons)
         if(message.content.startsWith(`${prefix}info`))
-            Mysql.getCurrency(message.author.id, message);
+	{
+	    const tagged = message.mentions.users.first();
+	    if(tagged == null)
+            	Mysql.getCurrency(message.author.id, message);
+	    else 
+		Mysql.getCurrency(tagged.id, message);
+	}
         
         //!shop- get shop
         else if(message.content.startsWith(`${prefix}shop`))
