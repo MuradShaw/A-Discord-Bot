@@ -58,7 +58,7 @@ client.on('message', message => {
                 arg = `${arg}${baseArg[i]}`;
 
             //Join tables
-            var daItems = Items.shop.items.concat(Items.shop.clothing);
+            var daItems = Items.shop.items;
             for(i in daItems)
             {
                 if(daItems[i].name.replace(" ", "") == arg)
