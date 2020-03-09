@@ -1,9 +1,9 @@
 //Getting things ready
 const Discord = require('discord.js');
-const Mysql = require('./mysql.js');
-const Items = require('./items.json');
+const Mysql = require('./settings/mysql.js');
+const Items = require('./settings/items.json');
 
-const { prefix, currencyName, token } = require('./config.json');
+const { prefix, currencyName, token } = require('./settings/config.json');
 const client = new Discord.Client();
 
 //Bot running
