@@ -1,11 +1,10 @@
 //Getting things ready
 const Discord = require('discord.js');
-const Mysql = require('./settings/mysql.js');
+const Mysql = require('./mysql.js');
 const Items = require('./settings/items.json');
 
-const { prefix, currencyName, coin_timeout, token } = require('./settings/config.json');
+const { prefix, currencyName, token } = require('./settings/config.json');
 const client = new Discord.Client();
-const talkedRecently = new Set();
 
 //Bot running
 client.once('ready', () => {
@@ -18,30 +17,21 @@ client.on('message', message => {
     if(message.author.bot) return;
     if(message.channel.type == "dm") return;
 
-    //Timed out?
-    if (!talkedRecently.has(msg.author.id))
-    {	    
-	//Give coins to the user
-    	Mysql.increaseCurrency(message.author.id);
-	    
-	talkedRecently.add(msg.author.id);
-        setTimeout(() => {
-          talkedRecently.delete(msg.author.id);
-        }, coin_timeout);
-    }
+    //Give some coins to the user
+    Mysql.increaseCurrency(message.author.id);
 
     //Someone is trying to run a command
     if(message.content.startsWith(`${prefix}`))
     {
         //!info- Get user info (amount of currency/xp/weapons)
         if(message.content.startsWith(`${prefix}info`))
-	{
-	    const tagged = message.mentions.users.first();
-	    if(tagged == null)
-            	Mysql.getCurrency(message.author, message);
-	    else 
-		Mysql.getCurrency(tagged, message);
-	}
+        {
+            const tagged = message.mentions.users.first();
+            if(tagged == null)
+                Mysql.getCurrency(message.author, message);
+            else 
+                Mysql.getCurrency(tagged, message);
+        }
         
         //!shop- get shop
         else if(message.content.startsWith(`${prefix}shop`))
@@ -122,6 +112,24 @@ client.on('message', message => {
                 message.channel.send('Item not found.');
             else
                 Mysql.buyItem(message, daItems[r].id, daItems[r].cost, daItems[r].image, daItems[r].name);
+        }
+
+        else if(message.content.startsWith(`${prefix}help`))
+        {
+            const shopEmbed = new Discord.RichEmbed()
+                .setColor('#0099ff')
+                .setTitle('Help')
+                //.setURL(message.author.fetchProfile)
+                .setDescription(`Buy a few things`)
+                .setThumbnail('https://www.canteach.ca/minecraft-pe/images/chest.gif')
+                .addBlankField()
+                .addField('Commands', '!buy [item name]')
+                .addField('Weaponry', theItems, true)
+                .addField('Clothing', theClothing, true)
+                .setTimestamp()
+                .setFooter('A Discord Bot', 'https://i.imgur.com/wSTFkRM.png');
+
+	        message.channel.send(shopEmbed);
         }
     }
 })
