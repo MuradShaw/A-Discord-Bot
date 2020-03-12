@@ -1,9 +1,7 @@
 {
     "prefix": "!",
     "currencyName": "Coins",
-    "coin_cooldown": 2,
-    "coin_min": 1,
-    "coin_max": 3,
+    "coin_cooldown": 1000,
     
     "token": "NjgxNTI5MjA5NzgwMzA1OTMz.XlP0YA.mz99vOOoAzwEEvz35VduO6qH_PY"
 }

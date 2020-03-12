@@ -3,7 +3,7 @@
 const Discord = require('discord.js');
 var mysql = require('mysql');
 const { Host, User, Password, Database } = require('./settings/settings.json');
-const { currencyName, coin_min, coin_max } = require('./settings/config.json');
+const { currencyName } = require('./settings/config.json');
 const Items = require('./settings/items.json');
 
 //Create connection
@@ -54,7 +54,7 @@ const increaseCurrency = (did) => {
 		if(err) throw err;
 		
 		let sql;
-		var newAmount = Math.floor(Math.random() * Math.floor(coin_max));
+		var newAmount = Math.floor(Math.random() * Math.floor(3));
 		
 		//User doesn't exist in db
 		if(rows < 1)

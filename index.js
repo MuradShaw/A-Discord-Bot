@@ -3,8 +3,10 @@ const Discord = require('discord.js');
 const Mysql = require('./mysql.js');
 const Items = require('./settings/items.json');
 
-const { prefix, currencyName, token } = require('./settings/config.json');
+const { prefix, currencyName, coin_cooldown, token } = require('./settings/config.json');
 const client = new Discord.Client();
+
+const talkedRecently = new Set();
 
 //Bot running
 client.once('ready', () => {
@@ -18,7 +20,16 @@ client.on('message', message => {
     if(message.channel.type == "dm") return;
 
     //Give some coins to the user
-    Mysql.increaseCurrency(message.author.id);
+    if (!talkedRecently.has(message.author.id))
+    {
+        Mysql.increaseCurrency(message.author.id);
+
+        talkedRecently.add(message.author.id);
+
+        setTimeout(() => {
+          talkedRecently.delete(message.author.id);
+        }, coin_cooldown);
+    }
 
     //Someone is trying to run a command
     if(message.content.startsWith(`${prefix}`))
