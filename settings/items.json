@@ -2,7 +2,7 @@
     "shop": 
     {
         "items": [
-            { "id": 1, "name":"Butter Sword", "desc": "A stick of butter slapped onto a hilt", "cost": 80, "image":"https://lh3.googleusercontent.com/proxy/aJj8Pozu3DFgbM803g7QMKmzSxMx1NHNyN23QD2AYWVZwF4EQr1n9j22QSXVduq8a6Jy86h0zYwCbLohLFG7RGFZhB0eMV3JG8k4HFGSduCKm1VLgP8d0BtAX2O4dFexq4s2oUItZzmW1oYgqTGJDdVA55mzrIHrJY9lPRrbgPauuaCUHKga7gK8ONvQGoBYmutVIrGqW47t"},
+            { "id": 1, "name":"Butter Sword", "desc": "A stick of butter slapped onto a hilt", "cost": 80, "image":""},
             { "id": 2, "name":"Toast Shield", "desc": "Crafted from only the finest of loafs", "cost": "80", "image":""}
         ],
 

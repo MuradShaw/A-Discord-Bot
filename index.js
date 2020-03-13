@@ -68,6 +68,7 @@ client.on('message', message => {
             //Get command arg
             var baseCmd = `${prefix}equip`;
             var r;
+            var clothing = false;
             const baseArg = message.content.slice(baseCmd.length).split(' ');
             var arg = '';
 
@@ -86,11 +87,27 @@ client.on('message', message => {
                     break;
                 }
             }
-            
+
+            if(!success)
+            {
+                daItems = Items.shop.clothing;
+                for(i in daItems)
+                {
+                    if(daItems[i].name.replace(" ", "") == arg)
+                    {
+                        success = true;
+                        clothing = true;
+                        r = i;
+
+                        break;
+                    }
+                }
+            }
+
             if(!success)
                 message.channel.send('Item not found.');
             else
-                Mysql.equipItem(message, daItems[r].id, daItems[r].image, daItems[r].name);            
+                Mysql.equipItem(message, daItems[r].id, daItems[r].image, daItems[r].name, clothing);            
         }
 
         //!buy- buy an item from the shop
@@ -131,12 +148,14 @@ client.on('message', message => {
                 .setColor('#0099ff')
                 .setTitle('Help')
                 //.setURL(message.author.fetchProfile)
-                .setDescription(`Buy a few things`)
-                .setThumbnail('https://www.canteach.ca/minecraft-pe/images/chest.gif')
+                .setDescription(`Commands`)
+                .setThumbnail('https://upload.wikimedia.org/wikipedia/commons/4/44/Question_mark_%28black_on_white%29.png')
                 .addBlankField()
-                .addField('Commands', '!buy [item name]')
-                .addField('Weaponry', theItems, true)
-                .addField('Clothing', theClothing, true)
+                .addField('!info (@user)', 'Pulls user info')
+                .addField('!shop', 'Brings up shop menu')
+                .addField('!buy (item name)', 'Buy an item you see in the shop')
+                .addField('!equip (item name)', 'Equip weapon/clothing')
+                .addField('!help', 'Shows all command- wait')
                 .setTimestamp()
                 .setFooter('A Discord Bot', 'https://i.imgur.com/wSTFkRM.png');
 
@@ -154,8 +173,6 @@ const getShop = (message) => {
     {   theItems = `${theItems}\n **${Items.shop.items[i].name}** | ${Items.shop.items[i].desc}. [${Items.shop.items[i].cost} ${currencyName}]`; }
     for (g in Items.shop.clothing) 
     {   theClothing = `${theClothing}\n **${Items.shop.clothing[g].name}** | ${Items.shop.clothing[g].desc}. [${Items.shop.clothing[g].cost} ${currencyName}]`; }
-
-    console.log(`${Items.clothing}`);
 
     const shopEmbed = new Discord.RichEmbed()
             .setColor('#0099ff')

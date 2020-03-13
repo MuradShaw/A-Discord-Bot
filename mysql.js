@@ -24,23 +24,48 @@ connection.connect(function(err) {
 const getCurrency = (user, message) => {
 	connection.query(`SELECT * FROM currency WHERE id = '${user.id}'`, (err, rows) => {
 		if(err) throw err;
+		if(user.bot) return;
 
-        let amount = rows[0].amount;
-        let sword = rows[0].equipped_weapon;
+		if(rows < 1)
+		{
+			const infoEmbed = new Discord.RichEmbed()
+				.setColor('#0099ff')
+				.setTitle(user.username)
+				//.setURL(message.author.fetchProfile)
+				.setDescription(`*Currently ${user.presence.status}*`)
+				.setThumbnail(user.avatarURL)
+				.addBlankField()
+				.addField(currencyName, 0)
+				//.addBlankField()
+				.addField('Equipped Weapon', 'No equipped weapon')
+				.addField('Equipped Weapon', 'No equipped clothing')
+				//.setImage()
+				.setTimestamp()
+				.setFooter('A Discord Bot', 'https://i.imgur.com/wSTFkRM.png');
 
-        const infoEmbed = new Discord.RichEmbed()
-            .setColor('#0099ff')
-            .setTitle(user.username)
-            //.setURL(message.author.fetchProfile)
-            .setDescription(`*Currently ${user.presence.status}*`)
-            .setThumbnail(user.avatarURL)
-            .addBlankField()
-            .addField(currencyName, amount, true)
-            //.addBlankField()
-	    .addField('Equipped Weapon', (rows[0].equipped_weapon == null ? 'No equipped weapon' : sword))
-            //.setImage()
-            .setTimestamp()
-            .setFooter('A Discord Bot', 'https://i.imgur.com/wSTFkRM.png');
+			message.channel.send(infoEmbed);
+
+			return;
+		}
+
+		let amount = rows[0].amount;
+		let sword = rows[0].equipped_weapon;
+		let clothing = rows[0].equipped_clothing;
+
+		const infoEmbed = new Discord.RichEmbed()
+			.setColor('#0099ff')
+			.setTitle(user.username)
+			//.setURL(message.author.fetchProfile)
+			.setDescription(`*Currently ${user.presence.status}*`)
+			.setThumbnail(user.avatarURL)
+			.addBlankField()
+			.addField(currencyName, (amount == null) ? 0 : amount, true)
+			//.addBlankField()
+			.addField('Equipped Weapon', (rows[0].equipped_weapon == null ? 'No equipped weapon' : sword))
+			.addField('Equipped Weapon', (rows[0].equipped_clothing == null ? 'No equipped clothing' : clothing))
+			//.setImage()
+			.setTimestamp()
+			.setFooter('A Discord Bot', 'https://i.imgur.com/wSTFkRM.png');
 
 		message.channel.send(infoEmbed);
 	});
@@ -69,7 +94,7 @@ const increaseCurrency = (did) => {
 	});
 }
 
-const equipItem = (message, id, image, name) => {
+const equipItem = (message, id, image, name, clothing) => {
 	var failure;
 	
 	connection.query(`SELECT * FROM purchased_items WHERE id = '${message.author.id}' AND itemID = '${id}'`, (err, rows) => {
@@ -79,8 +104,11 @@ const equipItem = (message, id, image, name) => {
 			message.channel.send("You do not own this item.");
 		else
 		{
-			connection.query(`UPDATE currency SET equipped_weapon = '${name}'`);
-
+			if(clothing)
+				connection.query(`UPDATE currency SET equipped_clothing = '${name}'`);
+			else
+				connection.query(`UPDATE currency SET equipped_weapon = '${name}'`);
+				
 			//Send channel message
 			const buyEmbed = new Discord.RichEmbed()
 				.setColor('#D4AF37')
