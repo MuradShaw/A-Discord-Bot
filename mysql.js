@@ -41,7 +41,7 @@ const getCurrency = (user, message) => {
 				.addField('Equipped Weapon', 'No equipped clothing')
 				//.setImage()
 				.setTimestamp()
-				.setFooter('A Discord Bot', 'https://i.imgur.com/wSTFkRM.png');
+				.setFooter('A Discord Bot');
 
 			message.channel.send(infoEmbed);
 
@@ -62,10 +62,10 @@ const getCurrency = (user, message) => {
 			.addField(currencyName, (amount == null) ? 0 : amount, true)
 			//.addBlankField()
 			.addField('Equipped Weapon', (rows[0].equipped_weapon == null ? 'No equipped weapon' : sword))
-			.addField('Equipped Weapon', (rows[0].equipped_clothing == null ? 'No equipped clothing' : clothing))
+			.addField('Equipped Clothing', (rows[0].equipped_clothing == null ? 'No equipped clothing' : clothing))
 			//.setImage()
 			.setTimestamp()
-			.setFooter('A Discord Bot', 'https://i.imgur.com/wSTFkRM.png');
+			.setFooter('A Discord Bot');
 
 		message.channel.send(infoEmbed);
 	});
@@ -118,7 +118,7 @@ const equipItem = (message, id, image, name, clothing) => {
 				.setThumbnail(`${image}`)
 				.addBlankField()
 				.setTimestamp()
-				.setFooter('A Discord Bot', 'https://i.imgur.com/wSTFkRM.png');
+				.setFooter('A Discord Bot');
 		
 			message.channel.send(buyEmbed); 
 		}
@@ -159,7 +159,7 @@ const buyItem = (message, id, price, image, arg) => {
 					.setThumbnail(`${image}`)
 					.addBlankField()
 					.setTimestamp()
-					.setFooter('A Discord Bot', 'https://i.imgur.com/wSTFkRM.png');
+					.setFooter('A Discord Bot');
 	
 				message.channel.send(buyEmbed);  
 			}

@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 const Mysql = require('./mysql.js');
 const Items = require('./settings/items.json');
 
-const { prefix, currencyName, coin_cooldown, token } = require('./settings/config.json');
+const { prefix, currencyName, coin_cooldown, blocked_channels, token } = require('./settings/config.json');
 const client = new Discord.Client();
 
 const talkedRecently = new Set();
@@ -18,8 +18,11 @@ client.once('ready', () => {
 client.on('message', message => {
     if(message.author.bot) return;
     if(message.channel.type == "dm") return;
+    var blocked;
+    for(i in blocked_channels)  if(blocked_channels[i].id == message.channel.id) { blocked = true; break; }
+    if(blocked) return;
 
-    //Give some coins to the user
+    //Give the user some coins
     if (!talkedRecently.has(message.author.id))
     {
         Mysql.increaseCurrency(message.author.id);
@@ -27,41 +30,21 @@ client.on('message', message => {
         talkedRecently.add(message.author.id);
 
         setTimeout(() => {
-          talkedRecently.delete(message.author.id);
+        talkedRecently.delete(message.author.id);
         }, coin_cooldown);
     }
 
-    //Someone is trying to run a command
-    if(message.content.startsWith(`${prefix}`))
+    if(message.content.startsWith(`${prefix}`)) //Someone is trying to run a command
     {
         //!info- Get user info (amount of currency/xp/weapons)
         if(message.content.startsWith(`${prefix}info`))
         {
-            const tagged = message.mentions.users.first();
-            if(tagged == null)
-                Mysql.getCurrency(message.author, message);
-            else 
-                Mysql.getCurrency(tagged, message);
+            Mysql.getCurrency(message.author, message);
         }
         
         //!shop- get shop
         else if(message.content.startsWith(`${prefix}shop`))
             getShop(message);
-        
-        else if(message.content.startsWith(`${prefix}setCoin`))
-        {
-            //Get command arg
-            var baseCmd = `${prefix}setCoin`;
-            var name;
-            const baseArg = message.content.slice(baseCmd.length).split(' ');
-            var arg = '';
-
-            for(i in baseArg)
-                arg = `${arg}${baseArg[i]}`;
-
-            
-            Mysql.debugSetCoins(message, arg);            
-        }
 
         else if(message.content.startsWith(`${prefix}equip`))
         {
@@ -148,16 +131,16 @@ client.on('message', message => {
                 .setColor('#0099ff')
                 .setTitle('Help')
                 //.setURL(message.author.fetchProfile)
-                .setDescription(`Commands`)
                 .setThumbnail('https://upload.wikimedia.org/wikipedia/commons/4/44/Question_mark_%28black_on_white%29.png')
                 .addBlankField()
+                .setDescription(`Get currency by posting!`)
                 .addField('!info (@user)', 'Pulls user info')
                 .addField('!shop', 'Brings up shop menu')
                 .addField('!buy (item name)', 'Buy an item you see in the shop')
                 .addField('!equip (item name)', 'Equip weapon/clothing')
                 .addField('!help', 'Shows all command- wait')
                 .setTimestamp()
-                .setFooter('A Discord Bot', 'https://i.imgur.com/wSTFkRM.png');
+                .setFooter('A Discord Bot');
 
 	        message.channel.send(shopEmbed);
         }
@@ -185,7 +168,7 @@ const getShop = (message) => {
             .addField('Weaponry', theItems, true)
             .addField('Clothing', theClothing, true)
             .setTimestamp()
-            .setFooter('A Discord Bot', 'https://i.imgur.com/wSTFkRM.png');
+            .setFooter('A Discord Bot');
 
 	message.channel.send(shopEmbed);
 }
