@@ -153,9 +153,9 @@ const getShop = (message) => {
     var theClothing = '';
 
     for (i in Items.shop.items) 
-    {   theItems = `${theItems}\n **${Items.shop.items[i].name}** | ${Items.shop.items[i].desc}. [${Items.shop.items[i].cost} ${currencyName}]`; }
+    {   theItems = `${theItems}\n **${Items.shop.items[i].name}** | ${Items.shop.items[i].desc} [${Items.shop.items[i].cost} ${currencyName}]`; }
     for (g in Items.shop.clothing) 
-    {   theClothing = `${theClothing}\n **${Items.shop.clothing[g].name}** | ${Items.shop.clothing[g].desc}. [${Items.shop.clothing[g].cost} ${currencyName}]`; }
+    {   theClothing = `${theClothing}\n **${Items.shop.clothing[g].name}** | ${Items.shop.clothing[g].desc} [${Items.shop.clothing[g].cost} ${currencyName}]`; }
 
     const shopEmbed = new Discord.RichEmbed()
             .setColor('#0099ff')

@@ -11,7 +11,7 @@
 
         "clothing": [
             { "id": 8, "name":"Striped Sweater", "desc": "The best time to wear a striped sweater...", "cost": 100, "image":""},
-            { "id": 9, "name":"Mushroom Badge", "desc": "Restores 20% of HP, appearently", "cost": 150, "image":""},
+            { "id": 9, "name":"Mushroom Badge", "desc": "Restores 20% of HP", "cost": 150, "image":""},
             { "id": 10, "name":"Varia Suit", "desc": "Survive climate change!", "cost": 225, "image":""},
             { "id": 11, "name":"Diamond Armor", "desc": "Seems worthless, should I burn it?", "cost": 400, "image":"https://vignette.wikia.nocookie.net/minecraftpocketedition/images/5/5b/Diamondarmor.png/revision/latest/scale-to-width-down/340?cb=20160922012258"} 
         ],
