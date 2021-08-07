@@ -105,9 +105,9 @@ const equipItem = (message, id, image, name, clothing) => {
 		else
 		{
 			if(clothing)
-				connection.query(`UPDATE currency SET equipped_clothing = '${name}'`);
+				connection.query(`UPDATE currency SET equipped_clothing = '${name}' WHERE id = '${message.author.id}'`);
 			else
-				connection.query(`UPDATE currency SET equipped_weapon = '${name}'`);
+				connection.query(`UPDATE currency SET equipped_weapon = '${name}' WHERE id = '${message.author.id}'`);
 				
 			//Send channel message
 			const buyEmbed = new Discord.RichEmbed()
