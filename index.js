@@ -88,7 +88,7 @@ client.on('message', message => {
             }
 
             if(!success)
-                message.channel.send('Item not found.');
+            {   if(arg == "") message.channel.send('Equipping nothing sounds counterintuitive.'); else message.channel.send('Item not found.');    }
             else
                 Mysql.equipItem(message, daItems[r].id, daItems[r].image, daItems[r].name, clothing);            
         }
@@ -120,7 +120,7 @@ client.on('message', message => {
             }
 
             if(!success)
-                message.channel.send('Item not found.');
+            {   if(arg == "") message.channel.send('Loitering much'); else message.channel.send('Item not found.'); }
             else
                 Mysql.buyItem(message, daItems[r].id, daItems[r].cost, daItems[r].image, daItems[r].name);
         }
@@ -133,7 +133,7 @@ client.on('message', message => {
                 //.setURL(message.author.fetchProfile)
                 .setThumbnail('https://upload.wikimedia.org/wikipedia/commons/4/44/Question_mark_%28black_on_white%29.png')
                 .addBlankField()
-                .setDescription(`Get currency by posting!`)
+                .setDescription(`Currency gained per post. \n Full list of commands below:`)
                 .addField('!info (@user)', 'Pulls user info')
                 .addField('!shop', 'Brings up shop menu')
                 .addField('!buy (item name)', 'Buy an item you see in the shop')
